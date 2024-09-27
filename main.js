@@ -1,29 +1,38 @@
 function showInput() {
-    document.getElementById('display').innerHTML = 
-          document.getElementById("name").value;
-                    
-		document.getElementById('display1').innerHTML =
-					document.getElementById("amount").value;
-					
-		document.getElementById('display2').innerHTML =
-					document.getElementById("name").value;
-		
-		document.getElementById('display3').innerHTML =
-					document.getElementById("amount").value;
-					
-		document.getElementById('display4').innerHTML =
-					document.getElementById("charge").value;
-					
-		document.getElementById('display5').innerHTML =
-					document.getElementById("charge").value;
-		
-		
-				}
+        document.getElementById('name').innerHTML =
+            document.getElementById("name_input").value;
+            
+        document.getElementById('Cname').innerHTML =
+            document.getElementById("name_input").value;
+            
+        document.getElementById('Ccname').innerHTML =
+            document.getElementById("name_input").value;
+        
+        document.getElementById("amount").innerHTML =
+            document.getElementById("amount_input").value;
+            
+        document.getElementById("Camount").innerHTML =
+            document.getElementById("amount_input").value;
+            
+        document.getElementById('charge').innerHTML =
+            document.getElementById("charge_input").value;
+            
+        document.getElementById('Ccharge').innerHTML =
+            document.getElementById("charge_input").value;
+          
+        document.getElementById('acc').innerHTML =
+          document.getElementById("acc_input").value;
+          
+        document.getElementById('ifsc').innerHTML =
+          document.getElementById("ifsc_input").value;
+          
+        document.getElementById('bank').innerHTML =
+          document.getElementById("bank_input").value;
+        
+    }
 
 
-
-
-    // JavaScript to update the date in the specified format
+ // JavaScript to update the date in the specified format
     var dateElement = document.getElementById("dateDisplay");
     var currentDate = new Date();
 
@@ -40,51 +49,84 @@ function showInput() {
     // Set the formatted date as the content of the span element
     dateElement.textContent = formattedDate;
 
-// Function to fetch current date from an online source
-    function getCurrentDate() {
-        return new Promise((resolve, reject) => {
-            fetch('https://worldtimeapi.org/api/ip')
-                .then(response => response.json())
-                .then(data => {
-                    const currentDate = new Date(data.datetime);
-                    resolve(currentDate);
-                })
-                .catch(error => {
-                    console.error('Error fetching current date:', error);
-                    reject(error);
-                });
-        });
-    }
-
-    // Function to check if the page is still valid
-    async function checkPageValidity() {
-        const expiryDate = new Date('2024-10-24T12:01:00'); // yyyy-mm-ddThh:mm:ss Format
-        const currentDate = await getCurrentDate();
-
-        if (currentDate > expiryDate) {
-             alert('THIS PAGE IS NO LONGER AVAILABLE.\n\nClosing...');
-             //window.location.href = 'about:blank'; // Redirect
-             document.body.innerHTML = "THIS PAGE IS NO LONGER AVAILABLE.";
-             window.close();
-        }
-    }
-
-    // Call the function when the page loads
-    window.onload = checkPageValidity;
-    setInterval(checkPageValidity, 3000);
 
 
+// Image
+const imageInput = document.getElementById('imageInput');
+const imagePreview = document.getElementById('imagePreview');
 
-  function checkInternetConnection() {
-    var online = navigator.onLine;
-    if (!online) {
-      alert("You're offline. This page requires an internet connection.\n\nClosing...");
-      window.close();
-    }
+imageInput.addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
   }
+});
 
-  // Check internet connection when the page loads
-  checkInternetConnection();
+//Customer Account
+const selectElement = document.getElementById('mySelect');
+const paragraph = document.getElementById('custAc');
+const div = document.getElementById('custAcc');
 
-  // Check internet connection periodically
-  setInterval(checkInternetConnection, 3000); // Every 3 seconds
+selectElement.addEventListener('change', function() {
+  if (this.value === 'yes') {
+    paragraph.style.display = 'block';
+    div.style.left = '0';
+  } else if (this.value === 'no') {
+    paragraph.style.display = 'none';
+    div.style.left = '-150%';
+  }
+});
+
+// Function to fetch current date from an online source
+function getCurrentDate() {
+  return new Promise((resolve, reject) => {
+    fetch('https://worldtimeapi.org/api/ip')
+      .then(response => response.json())
+      .then(data => {
+        const currentDate = new Date(data.datetime);
+        resolve(currentDate);
+      })
+      .catch(error => {
+        console.error('Error fetching current date:', error);
+        reject(error);
+      });
+  });
+}
+
+// Function to check if the page is still valid
+async function checkPageValidity() {
+  const expiryDate = new Date('2024-10-24T12:01:00'); // yyyy-mm-ddThh:mm:ss Format
+  const currentDate = await getCurrentDate();
+
+  if (currentDate > expiryDate) {
+    alert('THIS PAGE IS NO LONGER AVAILABLE.\n\nClosing...');
+    //window.location.href = 'about:blank'; // Redirect
+    document.body.innerHTML = "THIS PAGE IS NO LONGER AVAILABLE.";
+    window.close();
+  }
+}
+
+// Call the function when the page loads
+window.onload = checkPageValidity;
+setInterval(checkPageValidity, 3000);
+
+
+
+function checkInternetConnection() {
+  var online = navigator.onLine;
+  if (!online) {
+    alert("You're offline. This page requires an internet connection.\n\nClosing...");
+    window.close();
+  }
+}
+
+// Check internet connection when the page loads
+checkInternetConnection();
+
+// Check internet connection periodically
+setInterval(checkInternetConnection, 3000); // Every 3 seconds
